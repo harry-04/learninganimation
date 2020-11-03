@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Animation : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     public Rigidbody2D rb;
     private Animator anim;
@@ -18,12 +18,12 @@ public class Animation : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKey("a"))
         {
-            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
             anim.SetBool("walk_left", true);
+            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);  
         }
         else
         {
@@ -32,8 +32,8 @@ public class Animation : MonoBehaviour
 
         if (Input.GetKey("d"))
         {
-            rb.velocity = new Vector2(+moveSpeed, rb.velocity.y);
             anim.SetBool("walk_right", true);
+            rb.velocity = new Vector2(+moveSpeed, rb.velocity.y);
         }
         else
         {
