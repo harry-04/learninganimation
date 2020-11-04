@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public Rigidbody2D rb;
     private Animator anim;
-    public float moveSpeed = 8f;
+    public float moveSpeed = 3f;
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
@@ -22,46 +22,24 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        //Gives a value between -1 and 1
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);
 
-        if (horizontal == -1)
+        anim.SetFloat("Horizontal", movement.x); //refers to the animator parameter "Horizontal" and picks to move in the x axis
+        anim.SetFloat("Vertical", movement.y);   //refers to the animator parameter "Vertical" and picks to move in the y axis
+        anim.SetFloat("Magnitude", movement.magnitude);
+
+        if (movement.magnitude > 3.0f)
         {
-            anim.SetBool("walk_left", true);
-        }
-        else
-        {
-            anim.SetBool("walk_left", false);
+            movement.Normalize();
         }
 
-        if (horizontal == 1)
-        {
-            anim.SetBool("walk_right", true);
-        }
-        else
-        {
-            anim.SetBool("walk_right", false);
-        }
+        transform.position = transform.position + movement * Time.deltaTime * moveSpeed;
 
-        if (vertical == -1)
-        {
-            anim.SetBool("walk_down", true);
-        }
-        else
-        {
-            anim.SetBool("walk_down", false);
-        }
+        
 
-        if (vertical == 1)
-        {
-            anim.SetBool("walk_up", true);
-        }
-        else
-        {
-            anim.SetBool("walk_up", false);
-        }
+        
     }
+
 
 
     void FixedUpdate()
